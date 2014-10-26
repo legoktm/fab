@@ -1,0 +1,12 @@
+fab
+
+A fabulous, lightweight wrapper around Phabricator's API, Conduit, to handle authentication
+and other annoying things.
+
+Major thanks to <https://justin.harmonize.fm/development/2013/06/29/authenticating-with-phabricator.html>
+for actually documenting how to interact with conduit.
+
+Dependencies:
+    requests
+
+Released into the public domain.
