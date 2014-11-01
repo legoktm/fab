@@ -41,7 +41,9 @@ class Phabricator:
             'connectionID': result['connectionID'],
         }
 
-    def request(self, method, params):
+    def request(self, method, params=None):
+        if params is None:
+            params = {}
         if not self.session:
             self.connect()
         url = '%s/api/%s' % (self.host, method)
