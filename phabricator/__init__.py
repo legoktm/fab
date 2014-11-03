@@ -8,6 +8,11 @@ import time
 
 class Phabricator:
     def __init__(self, host, user, cert):
+        """
+        :param host: Hostname of the Phabricator instance, with no trailing /
+        :param user: Your username
+        :param cert: The conduit certificate, available in your settings
+        """
         self.host = host
         self.user = user
         self.cert = cert
@@ -29,6 +34,10 @@ class Phabricator:
         }
 
     def connect(self):
+        """
+        Sets up your Phabricator session, it's not necessary to call
+        this directly
+        """
         req = self.req_session.post('%s/api/conduit.connect' % self.host, data={
             'params': json.dumps(self.connect_params),
             'output': 'json',
@@ -43,6 +52,13 @@ class Phabricator:
         }
 
     def request(self, method, params=None):
+        """
+        Make a request to a method in the phabricator API
+        :param method: Name of the API method to call
+        :type method: basestring
+        :param params: Optional dict of params to pass
+        :type params: dict
+        """
         if params is None:
             params = {}
         if not self.phab_session:
