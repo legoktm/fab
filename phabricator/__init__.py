@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import collections
 import hashlib
 import json
 import requests
@@ -69,4 +70,7 @@ class Phabricator:
             'params': json.dumps(params),
             'output': 'json',
         })
-        return json.loads(req.content)['result']
+        return json.loads(
+            req.content,
+            object_pairs_hook=collections.OrderedDict
+        )['result']

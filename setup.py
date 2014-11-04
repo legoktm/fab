@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='fab',
-      version='1.3',
+      version='1.4',
       description='Wrapper around Phabricator API',
       author='Kunal Mehta',
       author_email='legoktm@gmail.com',
