@@ -19,7 +19,7 @@ class Phabricator:
         self.cert = cert
         self.phab_session = {}
         self.token = int(time.time())
-        self.signature = hashlib.sha1(str(self.token) + self.cert).hexdigest()
+        self.signature = hashlib.sha1(str(self.token).encode('utf-8') + self.cert.encode('utf-8')).hexdigest()
         self.req_session = requests.Session()
 
     @property
@@ -46,7 +46,7 @@ class Phabricator:
         })
 
         # Parse out the response (error handling ommitted)
-        result = json.loads(req.content)['result']
+        result = req.json()['result']
         self.phab_session = {
             'sessionKey': result['sessionKey'],
             'connectionID': result['connectionID'],
@@ -71,6 +71,6 @@ class Phabricator:
             'output': 'json',
         })
         return json.loads(
-            req.content,
+            req.content.decode(),
             object_pairs_hook=collections.OrderedDict
         )['result']
