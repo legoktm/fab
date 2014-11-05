@@ -6,6 +6,8 @@ import json
 import requests
 import time
 
+__version__ = '1.4.1'
+
 
 class Phabricator:
     def __init__(self, host, user, cert):
@@ -25,9 +27,9 @@ class Phabricator:
     @property
     def connect_params(self):
         return {
-            'client': 'phab-bz',
-            'clientVersion': 0,
-            'clientDescription': 'A script for importing Bugzilla bugs into Phabricator',
+            'client': 'python-fab',
+            'clientVersion': __version__,
+            'clientDescription': 'A fabulous, lightweight wrapper around Phabricator\'s API',
             'user': self.user,
             'host': self.host,
             'authToken': self.token,
