@@ -31,6 +31,7 @@ class Phabricator:
         :param host: Hostname of the Phabricator instance, with no trailing /
         :param user: Your username
         :param cert: The conduit certificate, available in your settings
+        :param token: conduit API token, available in your settings
         """
         self.host = host
         self.user = user

@@ -11,7 +11,7 @@ Usage
 
     import phabricator
 
-    phab = phabricator.Phabricator('https://..../', 'Username', token='api-token')
+    phab = phabricator.Phabricator('https://...', 'Username', token='api-token')
     phab.request('user.whoami')
 
 License
