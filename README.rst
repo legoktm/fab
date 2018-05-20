@@ -16,4 +16,5 @@ Usage
 
 License
 -------
-(C) 2014, 2018 Kunal Mehta, under the GPL v3 or later. See COPYING for more details.
+Copyright 2014, 2018 Kunal Mehta, under the GPL v3 or later. See COPYING for more
+details.

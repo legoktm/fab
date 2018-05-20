@@ -22,7 +22,7 @@ import json
 import requests
 import time
 
-__version__ = '2.0.0'
+__version__ = '2.0.1'
 
 
 class Phabricator:
