@@ -10,7 +10,7 @@ __version__ = '1.4.2'
 
 
 class Phabricator:
-    def __init__(self, host, user, cert):
+    def __init__(self, host, user, cert=None, token=None):
         """
         :param host: Hostname of the Phabricator instance, with no trailing /
         :param user: Your username
@@ -20,20 +20,20 @@ class Phabricator:
         self.user = user
         self.cert = cert
         self.phab_session = {}
-        self.token = int(time.time())
-        self.signature = hashlib.sha1(str(self.token).encode('utf-8') + self.cert.encode('utf-8')).hexdigest()
+        self.token = token
         self.req_session = requests.Session()
 
     @property
     def connect_params(self):
+        token = str(int(time.time()))
         return {
             'client': 'python-fab',
             'clientVersion': __version__,
             'clientDescription': 'A fabulous, lightweight wrapper around Phabricator\'s API',
             'user': self.user,
             'host': self.host,
-            'authToken': self.token,
-            'authSignature': self.signature,
+            'authToken': token,
+            'authSignature': hashlib.sha1((str(token) + self.cert).encode()).hexdigest(),
         }
 
     def connect(self):
@@ -41,6 +41,10 @@ class Phabricator:
         Sets up your Phabricator session, it's not necessary to call
         this directly
         """
+        if self.token:
+            self.phab_session = {'token': self.token}
+            return
+
         req = self.req_session.post('%s/api/conduit.connect' % self.host, data={
             'params': json.dumps(self.connect_params),
             'output': 'json',
