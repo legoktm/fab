@@ -8,6 +8,7 @@ Usage
 -----
 
 .. code:: python
+
     import phabricator
 
     phab = phabricator.Phabricator('https://..../', 'Username', token='api-token')
