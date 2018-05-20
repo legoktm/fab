@@ -9,5 +9,6 @@ setup(name='fab',
       author_email='legoktm@gmail.com',
       url='https://github.com/legoktm/fab',
       packages=['phabricator'],
+      python_requires='>=3.4',
       install_requires=['requests']
       )
