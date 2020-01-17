@@ -27,7 +27,7 @@ __version__ = '3.0.0'
 
 
 class PhabricatorException(Exception):
-    def __init__(self, response):
+    def __init__(self, response: dict):
         error_code = response.get('error_code', 'UNKNOWN')
         error_info = response.get('error_info', 'UNKNOWN')
 
@@ -38,7 +38,7 @@ class PhabricatorException(Exception):
 
 
 class Phabricator:
-    def __init__(self, host, user, cert=None, token=None):
+    def __init__(self, host: str, user: str, cert: str = None, token: str = None):
         """
         :param host: Hostname of the Phabricator instance, with no trailing /
         :param user: Your username
@@ -53,7 +53,7 @@ class Phabricator:
         self.req_session = requests.Session()
 
     @property
-    def connect_params(self):
+    def connect_params(self) -> dict:
         token = str(int(time.time()))
         return {
             'client': 'python-fab',
@@ -87,13 +87,11 @@ class Phabricator:
             'connectionID': result['connectionID'],
         }
 
-    def request(self, method, params=None):
+    def request(self, method: str, params: dict = None) -> dict:
         """
         Make a request to a method in the phabricator API
         :param method: Name of the API method to call
-        :type method: basestring
         :param params: Optional dict of params to pass
-        :type params: dict
         :raises PhabricatorException
         """
         if params is None:

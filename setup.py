@@ -12,6 +12,7 @@ setup(name='fab',
       license='LGPL-3.0-or-later',
       url='https://github.com/legoktm/fab',
       packages=['phabricator'],
+      package_data={'phabricator': ['py.typed']},
       python_requires='>=3.4',
       install_requires=['requests']
       )
