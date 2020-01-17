@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='fab',
-      version='2.0.1',
+      version='3.0.0',
       description='Wrapper around Phabricator API',
       long_description=open('README.rst').read(),
       long_description_content_type='text/x-rst',

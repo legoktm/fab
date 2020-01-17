@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
 Copyright (C) 2014, 2018, 2020 Kunal Mehta <legoktm@member.fsf.org>
+Copyright (C) 2020 Merlijn van Deen
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -22,7 +23,18 @@ import json
 import requests
 import time
 
-__version__ = '2.0.1'
+__version__ = '3.0.0'
+
+
+class PhabricatorException(Exception):
+    def __init__(self, response):
+        error_code = response.get('error_code', 'UNKNOWN')
+        error_info = response.get('error_info', 'UNKNOWN')
+
+        super().__init__('{}: {}'.format(error_code, error_info))
+        self.error_code = error_code
+        self.error_info = error_info
+        self.response = response
 
 
 class Phabricator:
@@ -82,6 +94,7 @@ class Phabricator:
         :type method: basestring
         :param params: Optional dict of params to pass
         :type params: dict
+        :raises PhabricatorException
         """
         if params is None:
             params = {}
@@ -93,7 +106,12 @@ class Phabricator:
             'params': json.dumps(params),
             'output': 'json',
         })
-        return json.loads(
+        response = json.loads(
             req.content.decode(),
             object_pairs_hook=collections.OrderedDict
-        )['result']
+        )
+
+        if response.get('error_code') is not None:
+            raise PhabricatorException(response)
+
+        return response['result']
