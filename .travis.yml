@@ -4,7 +4,17 @@ python:
   - "3.5"
   - "3.6"
   - "3.7"
+
+# test_config.json.enc has been encrypted using
+# openssl aes-256-cbc -md sha256 -pass stdin -in test_config.json -out test_config.json.enc
+
+before_install:
+  - openssl aes-256-cbc -md sha256 -d -pass env:password -in test_config.json.enc -out test_config.json
+
 # command to install dependencies
-install: "pip install tox-travis"
+install:
+  - pip install tox-travis
+
 # command to run tests
-script: tox
+script:
+  - tox

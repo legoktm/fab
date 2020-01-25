@@ -1,2 +1,14 @@
+__pycache__
+
+# build artifacts
 build
 dist
+*.egg-info
+
+# testing artifacts
+.mypy_cache
+.tox
+
+# local configuration
+.idea
+test_config.json
