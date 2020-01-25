@@ -6,10 +6,10 @@ python:
   - "3.7"
 
 # test_config.json.enc has been encrypted using
-# openssl aes-256-cbc -pbkdf2 -pass stdin -in test_config.json -out test_config.json.enc
+# openssl aes-256-cbc -pass stdin -in test_config.json -out test_config.json.enc
 
 before_install:
-  - openssl aes-256-cbc -d -pbkdf2 -pass env:password -in test_config.json.enc -out test_config.json
+  - openssl aes-256-cbc -d -pass env:password -in test_config.json.enc -out test_config.json
 
 # command to install dependencies
 install:
