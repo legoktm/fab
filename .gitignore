@@ -9,5 +9,6 @@ dist
 .mypy_cache
 .tox
 
-# IDE configuration
+# local configuration
 .idea
+test_config.json

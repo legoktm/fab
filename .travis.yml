@@ -4,7 +4,11 @@ python:
   - "3.5"
   - "3.6"
   - "3.7"
+
+# TODO before_install: https://docs.travis-ci.com/user/encrypting-files/#using-openssl
+
 # command to install dependencies
 install: "pip install tox-travis"
+
 # command to run tests
 script: tox
