@@ -22,12 +22,15 @@ import hashlib
 import json
 import requests
 import time
+from typing import Dict, Any, Optional
 
 __version__ = '3.0.0'
 
+PhabSession = Dict[str, str]
+
 
 class PhabricatorException(Exception):
-    def __init__(self, response: dict):
+    def __init__(self, response: Dict[str, Any]):
         error_code = response.get('error_code', 'UNKNOWN')
         error_info = response.get('error_info', 'UNKNOWN')
 
@@ -38,7 +41,7 @@ class PhabricatorException(Exception):
 
 
 class Phabricator:
-    def __init__(self, host: str, user: str, cert: str = None, token: str = None):
+    def __init__(self, host: str, user: str, cert: Optional[str] = None, token: Optional[str] = None):
         """
         :param host: Hostname of the Phabricator instance, with no trailing /
         :param user: Your username
@@ -48,12 +51,14 @@ class Phabricator:
         self.host = host
         self.user = user
         self.cert = cert
-        self.phab_session = {}
+        self.phab_session = {}  # type: PhabSession
         self.token = token
         self.req_session = requests.Session()
 
     @property
-    def connect_params(self) -> dict:
+    def connect_params(self) -> PhabSession:
+        assert self.cert, "connect_params should not be called without configured certificate"
+
         token = str(int(time.time()))
         return {
             'client': 'python-fab',
@@ -65,7 +70,7 @@ class Phabricator:
             'authSignature': hashlib.sha1((str(token) + self.cert).encode()).hexdigest(),
         }
 
-    def connect(self):
+    def connect(self) -> None:
         """
         Sets up your Phabricator session, it's not necessary to call
         this directly
@@ -87,7 +92,7 @@ class Phabricator:
             'connectionID': result['connectionID'],
         }
 
-    def request(self, method: str, params: dict = None) -> dict:
+    def request(self, method: str, params: Optional[Dict[str, Any]] = None) -> Any:
         """
         Make a request to a method in the phabricator API
         :param method: Name of the API method to call
