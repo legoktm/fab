@@ -8,6 +8,14 @@ root = Path(__file__).parent.parent
 config = json.load((root / "test_config.json").open(encoding="utf-8"))
 
 
+def test_invalid_config():
+    try:
+        phabricator.Phabricator(config['host'], config['username'])
+        pytest.fail()
+    except ValueError:
+        pass
+
+
 def test_token():
     phab = phabricator.Phabricator(config['host'], config['username'], token=config['token'])
 

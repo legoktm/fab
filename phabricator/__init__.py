@@ -48,6 +48,9 @@ class Phabricator:
         :param cert: The conduit certificate, available in your settings
         :param token: conduit API token, available in your settings
         """
+        if not cert and not token:
+            raise ValueError("Either cert or token must be specified")
+
         self.host = host
         self.user = user
         self.cert = cert
