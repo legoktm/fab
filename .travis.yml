@@ -5,10 +5,16 @@ python:
   - "3.6"
   - "3.7"
 
-# TODO before_install: https://docs.travis-ci.com/user/encrypting-files/#using-openssl
+# test_config.json.enc has been encrypted using
+# openssl aes-256-cbc -pbkdf2 -pass stdin -in test_config.json -out test_config.json.enc
+
+before_install:
+  - openssl aes-256-cbc -d -pbkdf2 -pass env:password -in test_config.json.enc -out test_config.json
 
 # command to install dependencies
-install: "pip install tox-travis"
+install:
+  - pip install tox-travis
 
 # command to run tests
-script: tox
+script:
+  - tox
