@@ -14,10 +14,12 @@ setup(name='fab',
       packages=['phabricator'],
       package_data={'phabricator': ['py.typed']},
       python_requires='>=3.4',
-      install_requires=['requests'],
+      install_requires=['requests', 'typing'],
       extras_require={
-            'dev': [
-                  'pytest',
+            'test': [
+                  'pytest'
+            ],
+            'check': [
                   'flake8',
                   'mypy'
             ]
