@@ -16,5 +16,5 @@ Usage
 
 License
 -------
-Copyright 2014, 2018, 2020 Kunal Mehta, under the LGPL v3 or later. See COPYING for more
+Copyright 2014, 2018, 2020-2021 Kunal Mehta, under the LGPL v3 or later. See COPYING for more
 details.

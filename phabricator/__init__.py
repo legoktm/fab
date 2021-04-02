@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Copyright (C) 2014, 2018, 2020 Kunal Mehta <legoktm@member.fsf.org>
+Copyright (C) 2014, 2018, 2020-2021 Kunal Mehta <legoktm@debian.org>
 Copyright (C) 2020 Merlijn van Deen
 
 This program is free software: you can redistribute it and/or modify
@@ -38,19 +38,29 @@ class PhabricatorException(Exception):
 
 
 class Phabricator:
-    def __init__(self, host: str, user: str, cert: str = None, token: str = None):
+    def __init__(self, host: str, user: str, cert: str = None, token: str = None,
+                 user_agent: str = None):
         """
         :param host: Hostname of the Phabricator instance, with no trailing /
         :param user: Your username
         :param cert: The conduit certificate, available in your settings
         :param token: conduit API token, available in your settings
+        :param user_agent: User-agent to set
         """
         self.host = host
         self.user = user
         self.cert = cert
         self.phab_session = {}
         self.token = token
+        self.user_agent = user_agent
         self.req_session = requests.Session()
+
+    @property
+    def headers(self) -> dict:
+        ret = {}
+        if self.user_agent is not None:
+            ret['user-agent'] = self.user_agent
+        return ret
 
     @property
     def connect_params(self) -> dict:
@@ -78,7 +88,7 @@ class Phabricator:
             'params': json.dumps(self.connect_params),
             'output': 'json',
             '__conduit__': True,
-        })
+        }, headers=self.headers)
 
         # Parse out the response (error handling ommitted)
         result = req.json()['result']
@@ -103,7 +113,7 @@ class Phabricator:
         req = self.req_session.post(url, data={
             'params': json.dumps(params),
             'output': 'json',
-        })
+        }, headers=self.headers)
         response = json.loads(
             req.content.decode(),
             object_pairs_hook=collections.OrderedDict
